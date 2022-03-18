@@ -1,24 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import axios from "axios";
+import { Router, Link, Redirect } from "@reach/router";
+import Form from "./components/Form";
+import Data from "./components/Data";
 
 function App() {
+  const [data, setData] = useState({});
+
+  const [inputs, setInputs] = useState({
+    resource: "people",
+    id: false,
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <>
+      <header>
+        <nav>
+          <Link to="/">Home</Link>
+        </nav>
       </header>
-    </div>
+      <section className="form">
+        <Form inputs={inputs} setInputs={setInputs}></Form>
+      </section>
+      <main>
+        <Router>
+          <Data
+            path="/:resource/:id"
+            data={data}
+            setData={setData}
+            inputs={inputs}
+            setInputs={setInputs}
+          ></Data>
+        </Router>
+      </main>
+    </>
   );
 }
 
